@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지렁이 게임</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            }
+    </style>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div>
+        <button id="startButton">게임 시작</button>
+        <button id="stopButton">게임 종료</button>
+    </div>
+    <button id="settingsButton">
+        <img src="settings-icon.png" alt="설정" width="20" height="20"> 설정
+    </button>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>설정</h2>
+            
+            <!-- 지렁이 속도 설정 -->
+            <div>
+                <h3>지렁이 속도</h3>
+                <label>
+                    <input type="radio" name="speed" id="speedSlow" value="slow" checked> 느림
+                </label>
+                <label>
+                    <input type="radio" name="speed" id="speedMedium" value="medium"> 중간
+                </label>
+                <label>
+                    <input type="radio" name="speed" id="speedFast" value="fast"> 빠름
+                </label>
+            </div>
+
+            <!-- 플레이어 설정 -->
+            <div>
+                <h3>플레이어 설정</h3>
+                <label>
+                    <input type="radio" name="players" id="player1" value="1P" checked> 1P
+                </label>
+                <label>
+                    <input type="radio" name="players" id="player2" value="2P"> 2P
+                </label>
+                
+                <div id="playerOptions">
+                    <!-- 1P 키 설정 -->
+                    <div id="1PKeys">
+                        <h4>1P 키 설정</h4>
+                        <label>Up: <input type="text" id="1P-up" value=""></label>
+                        <label>Down: <input type="text" id="1P-down" value=""></label>
+                        <label>Left: <input type="text" id="1P-left" value=""></label>
+                        <label>Right: <input type="text" id="1P-right" value=""></label>
+                    </div>
+
+                    <!-- 2P 선택 시 옵션 -->
+                    <div id="2POptions" style="display:none;">
+                        <button id="autoButton">Auto</button>
+                        <button id="playerButton">Player</button>
+
+                        <!-- 2P 키 설정 -->
+                        <div id="2PKeys" style="display:none;">
+                            <h4>2P 키 설정</h4>
+                            <label>Up: <input type="text" id="2P-up" value=""></label>
+                            <label>Down: <input type="text" id="2P-down" value=""></label>
+                            <label>Left: <input type="text" id="2P-left" value=""></label>
+                            <label>Right: <input type="text" id="2P-right" value=""></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 맵 크기 설정 -->
+            <div>
+                <h3>맵 크기</h3>
+                <label>
+                    <input type="radio" name="mapSize" id="mapSmall" value="small" checked> 작음
+                </label>
+                <label>
+                    <input type="radio" name="mapSize" id="mapMedium" value="medium"> 중간
+                </label>
+                <label>
+                    <input type="radio" name="mapSize" id="mapLarge" value="large"> 큼
+                </label>
+            </div>
+
+            <!-- 적용 버튼 -->
+            <button id="applyButton">적용</button>
+        </div>
+    </div>
+    <script type="module">
+        import { IEarthWorm } from './earthworm.js';
+
+        const game = new IEarthWorm(80, 60);
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            game.gameStart();
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            game.gameStop();
+        });
+    </script>
+      <script src="../js/modal.js"></script>
+</body>
+</html>
