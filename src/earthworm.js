@@ -8,6 +8,7 @@ class IEarthWorm {
         this.isGameOver = false;       // 종료 여부
         this.gameInterval = null;      // 게임 인터벌
         this.score = 0;
+        this.scoreInterval = null;
 
         // 지렁이와 먹이 이미지 로드
         this.wormImage = new Image();
@@ -24,6 +25,9 @@ class IEarthWorm {
         this.worm = [{x: centerX, y: centerY}, {x: centerX - 1, y: centerY}, {x: centerX - 2, y: centerY}, {x: centerX - 3, y: centerY}];
         this.apple = this.createApple();
         this.isGameOver = false;
+        this.score = 0; // 점수 초기화
+        this.updateScore();
+        this.startScoreTimer();
         //this.score = getScore();
     }
 
@@ -34,6 +38,21 @@ class IEarthWorm {
     //     let scoreTime = currentTime - startTime;
     //     let score = Math.floor(scoreTime / 1000);
     // }
+    startScoreTimer() {
+        if (this.scoreInterval) {
+            clearInterval(this.scoreInterval);
+        }
+        this.scoreInterval = setInterval(() => {
+            this.score += 1;
+            this.updateScore();
+        }, 1000); // 1초마다 점수 1 증가
+    }
+
+    stopScoreTimer() {
+        if (this.scoreInterval) {
+            clearInterval(this.scoreInterval);
+        }
+    }
 
     gameStart() {
         this.resetGame();
@@ -67,6 +86,7 @@ class IEarthWorm {
         if (this.isGameOver) return;
         clearInterval(this.gameInterval);
         this.isGameOver = true;
+        this.stopScoreTimer();
         alert("Game Over");
     }
   
@@ -126,6 +146,8 @@ class IEarthWorm {
         // 사과를 먹으면 사과 새로 생성
         if (head.x === this.apple.x && head.y === this.apple.y) {
             this.apple = this.createApple();
+            this.score += 10; // 점수 증가
+            this.updateScore(); // 점수 표시 업데이트
         } else {
             this.worm.pop();
         }
@@ -167,6 +189,11 @@ class IEarthWorm {
 
         context.drawImage(this.appleImage, this.apple.x * 10, this.apple.y * 10, 10, 10);
     }
+
+    updateScore() {
+        document.getElementById('score').innerText = `점수: ${this.score}`;
+    }
 }
+    
 
 export { IEarthWorm };
